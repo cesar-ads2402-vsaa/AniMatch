@@ -1,4 +1,4 @@
-<h1 align="center">Projeto POO</h1>
+<h1 align="center">AniMatch</h1>
 
 Este projeto faz parte da cadeira de **Programação Orientada à Objeto**, do 3° período do curso de Análise e Desenvolvimento de Sistemas, a proposta do projeto é desenvolver #### utilizando a linguagem ```Java```.
 ## Sumário
@@ -16,6 +16,12 @@ Este projeto faz parte da cadeira de **Programação Orientada à Objeto**, do 3
 
 ## Integrantes:
 
+- ### ⁠Arthur Borba Lins
+- ### ⁠Bruno Dornelas Costa Ciro da Penha
+- ### ⁠Felipe Cisneiros Agostinho
+- ### ⁠Júlia Oliveira Veríssimo
+- ### ⁠Michelangelo Morais do Rego
+- ### ⁠Paulo Henrique Alves de Barros Pereira
 - ### ⁠Victor Simas Azevedo de Almeida
 
 ## Tema escolhido
