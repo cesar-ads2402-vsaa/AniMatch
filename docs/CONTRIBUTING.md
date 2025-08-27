@@ -12,7 +12,7 @@ Bem-vindo ao guia de contribuição para este projeto! Este documento detalha co
 7. [Criando e Revisando Pull Requests](#criando-e-revisando-pull-requests)
 
 ## Requisitos do projeto
-Para verificar os requisitos do projeto, verifique o arquivo com os [requisitos do projeto](./specifications.md).
+Para verificar os requisitos do projeto, verifique o arquivo com os [requisitos do projeto](./SPECIFICATIONS.md).
 
 ## Configuração do Ambiente
 Certifique-se de configurar o ambiente de desenvolvimento corretamente:
