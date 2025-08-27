@@ -1,6 +1,6 @@
 <h1 align="center">AniMatch</h1>
 
-Este projeto faz parte da cadeira de **Programação Orientada à Objeto**, do 3° período do curso de Análise e Desenvolvimento de Sistemas, a proposta do projeto é desenvolver #### utilizando a linguagem ```Java```.
+Este projeto faz parte da cadeira de **Programação Orientada à Objeto**, do 3° período do curso de Análise e Desenvolvimento de Sistemas, a proposta do projeto é desenvolver um site voltado àqueles que buscam animes, com funcionalidade de recomendação com IA por base em gostos predefinidos utilizando a linguagem ```Java```.
 ## Sumário
 1. [Integrantes](#integrantes)
 2. [Tema Escolhido](#tema-escolhido)
