@@ -41,7 +41,7 @@ Para ver nosso protótipo navegável basta acessar o nosso [protótipo figma]()
 ## **Screencasts**
 
 ## Issues
-Acompanhe o planejamento e as issues deste projeto na seção de [Issues]().
+Acompanhe o planejamento e as issues deste projeto na seção de [Issues](https://github.com/orgs/cesar-ads2402-vsaa/projects/2).
 
 ## Como Contribuir
 
