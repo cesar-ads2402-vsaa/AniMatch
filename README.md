@@ -64,7 +64,7 @@ Confira o [Contributing](./docs/CONTRIBUTING.md) para mais informações de como
 - **Dia 09/09**
 - Protótipo navegável no Figma: [Clique aqui para acessar](https://www.figma.com/proto/eSigW1lnlTjWfLkQKmEQtu/AniMatch?t=c5YbvD3IlAGpNBqu-1&node-id=3-2&starting-point-node-id=3%3A2)  
 - Histórias propostas no Trello: [Clique aqui para acessar](https://trello.com/b/gJjPryz0/animatch)
-- Documento com as histórias propostas no Trello: [Clique aqui para acessar](https://drive.google.com/file/d/1-9F1val0o7SNpG0UD1VJUEKlfchS21hI/view?usp=drive_link) 
+- Documento com as histórias propostas no Trello: [Clique aqui para acessar](https://drive.google.com/drive/folders/1IHKS6pm2pFUY_g6aT9TqggyUjyL3GvmE?usp=drive_link) 
 - Screencast do protótipo Lo-fi: [Clique aqui para acessar]()
 ---
 
