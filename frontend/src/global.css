@@ -1,0 +1,30 @@
+:root{
+    --color1: #222;
+    --color2: grey;
+    --color3: white;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: var(--color1);
+    color: var(--color3);
+}
+.banner{
+    width: 225px;
+    height: 420px;
+}
+.banner-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+.container-detalhes{
+    display:flex;
+    justify-content: center;
+    gap: 20px;
+}
