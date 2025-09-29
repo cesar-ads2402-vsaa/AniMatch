@@ -49,7 +49,7 @@ Para ver as especificações do projeto, veja o [arquivo de especificações](./
 ---
 
 ## Issues
-Acompanhe o planejamento e as issues deste projeto na seção de [Issues](https://github.com/orgs/cesar-ads2402-vsaa/projects/2).
+Acompanhe o planejamento e as issues deste projeto na seção de [Issues](https://github.com/orgs/cesar-ads2402-vsaa/projects/3).
 
 ---
 
