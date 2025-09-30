@@ -69,7 +69,9 @@ Confira o [Contributing](./docs/CONTRIBUTING.md) para mais informações de como
 ---
 
 ### Entrega 02
-- **Dia 30/09**
+- Print do bug tracker
+<img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/d2e26d95-1a20-487e-b258-0cb8645d66dd" />
+
 ---
 
 ## Licença
