@@ -11,9 +11,9 @@ A proposta do projeto é desenvolver um site voltado àqueles que buscam animes,
 5. [Requisitos](#requisitos)
 6. [Issues](#issues)
 7. [Como Contribuir](#como-contribuir)
-8. [Como Rodar O Projeto](#como-rodar-o-projeto)
-9. [Entregas](#entregas)
-10. [Licença](#licença)  
+8. [Entregas](#entregas)
+9. [Licença](#licença)
+10. [Como Rodar O Projeto](#como-rodar-o-projeto) 
 
 ---
 
@@ -58,14 +58,35 @@ Acompanhe o planejamento e as issues deste projeto na seção de [Issues](https:
 Confira o [Contributing](./docs/CONTRIBUTING.md) para mais informações de como contribuir no projeto, bem como informações sobre inicialização e boas práticas para desenvolvimento do projeto.
 
 ---
-## Como Rodar o Projeto
+## Entregas
 
-### Pré-requisitos
+### Entrega 01
+- **Dia 09/09**
+- Protótipo navegável no Figma: [Clique aqui para acessar](https://www.figma.com/proto/eSigW1lnlTjWfLkQKmEQtu/AniMatch?t=c5YbvD3IlAGpNBqu-1&node-id=3-2&starting-point-node-id=3%3A2)  
+- Histórias propostas no Trello: [Clique aqui para acessar](https://trello.com/b/gJjPryz0/animatch)  
+- Documento com as histórias propostas no Trello: [Clique aqui para acessar](https://drive.google.com/drive/folders/1IHKS6pm2pFUY_g6aT9TqggyUjyL3GvmE?usp=drive_link)  
+- Screencast do protótipo Lo-fi: [Clique aqui para acessar](https://www.youtube.com/watch?v=shaaQ5WRWR8)
+
+### Entrega 02
+- **Dia 30/09**
+- Histórias implementadas: [Clique aqui para acessar](https://trello.com/b/gJjPryz0/animatch)  
+- Print do bug tracker:  
+  <img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/d2e26d95-1a20-487e-b258-0cb8645d66dd" />
+- Screencast do sistema: [Clique aqui para acessar](https://www.youtube.com/watch?v=IKB8UQPakdo)
+
+---
+## Licença
+Esse projeto está licenciado sob a [Licença MIT](./LICENSE). Pré-requisitos
+
+---
+### Como rodar o projeto
+
+## Pré-requisitos
 - **Java 17** ou superior
 - **Maven** instalado na máquina
 - **Node.js** e **npm** instalados
 
-### Backend e Frontend
+## Backend e Frontend
 ```bash
 # Instale as dependências e execute o projeto
 mvn spring-boot:run
@@ -78,24 +99,7 @@ npm install axios
 npm run dev
 ---
 
-## Entregas
 
-### Entrega 01
-- **Dia 09/09**
-- Protótipo navegável no Figma: [Clique aqui para acessar](https://www.figma.com/proto/eSigW1lnlTjWfLkQKmEQtu/AniMatch?t=c5YbvD3IlAGpNBqu-1&node-id=3-2&starting-point-node-id=3%3A2)  
-- Histórias propostas no Trello: [Clique aqui para acessar](https://trello.com/b/gJjPryz0/animatch)
-- Documento com as histórias propostas no Trello: [Clique aqui para acessar](https://drive.google.com/drive/folders/1IHKS6pm2pFUY_g6aT9TqggyUjyL3GvmE?usp=drive_link) 
-- Screencast do protótipo Lo-fi: [Clique aqui para acessar](https://www.youtube.com/watch?v=shaaQ5WRWR8)
----
 
-### Entrega 02
-- **Dia 30/09**
-- Histórias implementadas: [Clique aqui para acessar](https://trello.com/b/gJjPryz0/animatch)
-- Print do bug tracker:
-<img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/d2e26d95-1a20-487e-b258-0cb8645d66dd" />
-- Screencast do sistema: [Clique aqui para acessar](https://www.youtube.com/watch?v=IKB8UQPakdo)
 
----
 
-## Licença
-Esse projeto está licenciado sob a [Licença MIT](./LICENSE).
