@@ -8,10 +8,11 @@ A proposta do projeto é desenvolver um site voltado àqueles que buscam animes,
 2. [Tema Escolhido](#tema-escolhido)  
 3. [Desafio](#desafio)  
 4. [Objetivos](#objetivos)  
-5. [Requisitos](#requisitos)  
-7. [Entregas](#entregas)
-8. [Issues](#issues)  
-9. [Como Contribuir](#como-contribuir)  
+5. [Requisitos](#requisitos)
+6. [Issues](#issues)
+7. [Como Contribuir](#como-contribuir)
+8. [Como Rodar O Projeto](#como-rodar-o-projeto)
+9. [Entregas](#entregas)
 10. [Licença](#licença)  
 
 ---
@@ -57,6 +58,25 @@ Acompanhe o planejamento e as issues deste projeto na seção de [Issues](https:
 Confira o [Contributing](./docs/CONTRIBUTING.md) para mais informações de como contribuir no projeto, bem como informações sobre inicialização e boas práticas para desenvolvimento do projeto.
 
 ---
+## Como Rodar o Projeto
+
+### Pré-requisitos
+- **Java 17** ou superior
+- **Maven** instalado na máquina
+- **Node.js** e **npm** instalados
+
+### Backend e Frontend
+```bash
+# Instale as dependências e execute o projeto
+mvn spring-boot:run
+
+# Instale as dependências
+npm install
+npm install axios
+
+# Execute o projeto
+npm run dev
+---
 
 ## Entregas
 
@@ -69,8 +89,11 @@ Confira o [Contributing](./docs/CONTRIBUTING.md) para mais informações de como
 ---
 
 ### Entrega 02
-- Print do bug tracker
+- **Dia 30/09**
+- Histórias implementadas: [Clique aqui para acessar](https://trello.com/b/gJjPryz0/animatch)
+- Print do bug tracker:
 <img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/d2e26d95-1a20-487e-b258-0cb8645d66dd" />
+- Screencast do sistema: [Clique aqui para acessar](https://www.youtube.com/watch?v=IKB8UQPakdo)
 
 ---
 
