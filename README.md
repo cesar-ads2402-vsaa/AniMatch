@@ -76,7 +76,7 @@ Confira o [Contributing](./docs/CONTRIBUTING.md) para mais informações de como
 
 ---
 ## Licença
-Esse projeto está licenciado sob a [Licença MIT](./LICENSE). Pré-requisitos
+Esse projeto está licenciado sob a [Licença MIT](./LICENSE). 
 
 ---
 ### Como rodar o projeto
