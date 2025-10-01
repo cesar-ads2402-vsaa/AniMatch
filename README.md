@@ -40,7 +40,9 @@ A proposta do projeto é desenvolver um site voltado àqueles que buscam animes,
 ---
 
 ## Objetivos
-- **Objetivos**: Objetivos do desafio proposto.
+- Criar um site responsivo para recomendação de animes.
+- Implementar sistema de recomendação baseado em gostos pré-definidos.
+- Garantir integração entre backend em Java e frontend em React.
 
 ---
 
@@ -81,23 +83,32 @@ Esse projeto está licenciado sob a [Licença MIT](./LICENSE).
 ---
 ### Como rodar o projeto
 
-## Pré-requisitos
+#### Pré-requisitos
 - **Java 17** ou superior
-- **Maven** instalado na máquina
+- **Maven** instalado
 - **Node.js** e **npm** instalados
 
-## Backend e Frontend
-```bash
-# Instale as dependências e execute o projeto
-mvn spring-boot:run
+#### Passo 1: Rodando o Backend
+No diretório `backend`, siga os passos abaixo:
 
-# Instale as dependências
+```bash
+# Execute o backend com o Spring Boot
+mvn spring-boot:run
+```
+
+#### Passo 2: Rodando o Frontend
+No diretório `frontend`, siga os passos abaixo:
+
+```bash
+# Instale as dependências do projeto
 npm install
+
+# Instale o axios (necessário para chamadas HTTP)
 npm install axios
 
-# Execute o projeto
+# Inicie o servidor de desenvolvimento
 npm run dev
----
+```
 
 
 
