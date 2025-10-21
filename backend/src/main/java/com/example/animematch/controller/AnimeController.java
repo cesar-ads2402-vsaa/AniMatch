@@ -35,4 +35,13 @@ public class AnimeController {
     public List<Anime> listarAnimesTemporadaAtual() {
         return animeService.carregarAnimesTemporadaAtual();
     }
+
+    @GetMapping("/buscar")
+    public List<Anime> buscarAnimesComFiltros(
+            @RequestParam(required = false) String genero,
+            @RequestParam(required = false) String classificacao,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String palavraChave) {
+        return animeService.buscarAnimesComFiltros(genero, classificacao, status, palavraChave);
+    }
 }

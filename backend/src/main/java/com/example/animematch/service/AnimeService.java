@@ -84,4 +84,8 @@ public class AnimeService implements CommandLineRunner {
     public List<Anime> buscarPorStatus(String status) {
         return animeRepository.findByStatus(status);
     }
+
+    public List<Anime> buscarAnimesComFiltros(String genero, String classificacao, String status, String palavraChave) {
+        return animeRepository.findByFiltros(genero, classificacao, status, palavraChave);
+    }
 }
