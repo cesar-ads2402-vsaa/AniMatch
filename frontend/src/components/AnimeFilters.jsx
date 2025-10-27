@@ -13,9 +13,19 @@ const AnimeFilters = ({ onFilterChange, onClearFilters }) => {
     'Mystery', 'Romance', 'Sci-Fi', 'Slice of Life', 'Sports', 'Supernatural'
   ];
 
+  // Apenas classificações permitidas (conteúdo inadequado é filtrado no backend)
   const classificacoes = [
     'G - All Ages', 'PG - Children', 'PG-13 - Teens 13 or older', 
-    'R - 17+ (violence & profanity)', 'R+ - Mild Nudity', 'Rx - Hentai'
+    'R - 17+ (violence & profanity)'
+  ];
+  
+  // Classificações proibidas nunca aparecerão aqui pois são filtradas no backend
+  // Mas mantemos a lista para referência se necessário adicionar filtro frontend
+  const classificacoesProibidas = [
+    'R+ - Mild Nudity',
+    'Rx - Hentai',
+    'R+',
+    'Rx'
   ];
 
   const statusOptions = [

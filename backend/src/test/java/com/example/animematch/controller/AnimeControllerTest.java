@@ -42,8 +42,10 @@ void setUp() {
 void deveListarTodosOsAnimes() throws Exception {
     Anime a1 = new Anime();
     a1.setTituloPrincipal("Naruto");
+    a1.setClassificacao("PG-13 - Teens 13 or older");
     Anime a2 = new Anime();
     a2.setTituloPrincipal("One Piece");
+    a2.setClassificacao("PG - Children");
 
     when(animeService.listarTodos()).thenReturn(List.of(a1, a2));
 
@@ -59,6 +61,7 @@ void deveBuscarAnimePorId() throws Exception {
     Anime anime = new Anime();
     anime.setId(1L);
     anime.setTituloPrincipal("Naruto");
+    anime.setClassificacao("PG-13 - Teens 13 or older");
 
     when(animeService.buscarPorId(1L)).thenReturn(anime);
 
@@ -71,6 +74,7 @@ void deveBuscarAnimePorId() throws Exception {
 void deveSalvarAnime() throws Exception {
     Anime anime = new Anime();
     anime.setTituloPrincipal("Bleach");
+    anime.setClassificacao("R - 17+ (violence & profanity)");
 
     when(animeService.salvar(any(Anime.class))).thenReturn(anime);
 
@@ -85,6 +89,7 @@ void deveSalvarAnime() throws Exception {
 void deveListarAnimesDaTemporadaAtual() throws Exception {
     Anime anime = new Anime();
     anime.setTituloPrincipal("Attack on Titan");
+    anime.setClassificacao("R - 17+ (violence & profanity)");
 
     when(animeService.carregarAnimesTemporadaAtual()).thenReturn(List.of(anime));
 
@@ -97,6 +102,7 @@ void deveListarAnimesDaTemporadaAtual() throws Exception {
 void deveBuscarAnimesComFiltros() throws Exception {
     Anime anime = new Anime();
     anime.setTituloPrincipal("Demon Slayer");
+    anime.setClassificacao("PG-13 - Teens 13 or older");
 
     when(animeService.buscarAnimesComFiltros("Ação", "PG-13", "Em exibição", "Demon"))
             .thenReturn(List.of(anime));
@@ -108,6 +114,27 @@ void deveBuscarAnimesComFiltros() throws Exception {
                     .param("palavraChave", "Demon"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].tituloPrincipal").value("Demon Slayer"));
+}
+
+@Test
+void deveFiltrarAnimesComClassificacaoProibida() throws Exception {
+    Anime animePermitido = new Anime();
+    animePermitido.setTituloPrincipal("Naruto");
+    animePermitido.setClassificacao("PG-13 - Teens 13 or older");
+    
+    Anime animeProibido = new Anime();
+    animeProibido.setTituloPrincipal("Anime Proibido");
+    animeProibido.setClassificacao("Rx - Hentai");
+    
+    // Simula que o service retorna ambos
+    when(animeService.listarTodos())
+        .thenReturn(List.of(animePermitido, animeProibido));
+    
+    // O controller deve filtrar o anime proibido
+    mockMvc.perform(get("/api/animes"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()").value(1))
+            .andExpect(jsonPath("$[0].tituloPrincipal").value("Naruto"));
 }
 
 }
