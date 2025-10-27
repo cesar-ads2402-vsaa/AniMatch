@@ -3,6 +3,7 @@ package com.example.animematch.client;
 import com.example.animematch.model.Anime;
 import com.example.animematch.model.Imagens;
 import com.example.animematch.model.Periodo;
+import com.example.animematch.util.ClassificacaoUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,6 +47,12 @@ public class JikanClient {
 
                 // Classificação indicativa
                 String classificacao = (String) item.get("rating");
+
+                // Filtrar animes com conteúdo inadequado
+                if (ClassificacaoUtil.ehClassificacaoProibida(classificacao)) {
+                    System.out.println("Anime filtrado (classificação proibida): " + tituloPrincipal + " - " + classificacao);
+                    continue;
+                }
 
                 // Nota
                 Double nota = item.get("score") != null ? ((Number) item.get("score")).doubleValue() : null;

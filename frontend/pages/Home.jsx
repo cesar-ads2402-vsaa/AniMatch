@@ -17,14 +17,36 @@ const Home = () => {
     setLoading(true);
     axios.get("http://localhost:8080/api/animes")
       .then(response => {
-        setAnimes(response.data);
-        setFilteredAnimes(response.data);
+        // Filtro de segurança adicional no frontend (backend já filtra)
+        const animesFiltrados = filtrarAnimesInadequados(response.data);
+        setAnimes(animesFiltrados);
+        setFilteredAnimes(animesFiltrados);
         setLoading(false);
       })
       .catch(error => {
         console.error("Erro ao carregar animes:", error);
         setLoading(false);
       });
+  };
+  
+  // Função para filtrar classificações proibidas no frontend
+  const filtrarAnimesInadequados = (animes) => {
+    const classificacoesProibidas = [
+      'R+ - Mild Nudity',
+      'Rx - Hentai',
+      'R+',
+      'Rx',
+      'Hentai'
+    ];
+    
+    return animes.filter(anime => {
+      if (!anime.classificacao) return true;
+      
+      const classificacaoLower = anime.classificacao.toLowerCase();
+      return !classificacoesProibidas.some(proibida => 
+        classificacaoLower.includes(proibida.toLowerCase())
+      );
+    });
   };
 
   const buscarComFiltros = (filters) => {
@@ -43,7 +65,9 @@ const Home = () => {
     
     axios.get(url)
       .then(response => {
-        setFilteredAnimes(response.data);
+        // Filtro de segurança adicional no frontend
+        const animesFiltrados = filtrarAnimesInadequados(response.data);
+        setFilteredAnimes(animesFiltrados);
         setLoading(false);
       })
       .catch(error => {
