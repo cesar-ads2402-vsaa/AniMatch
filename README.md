@@ -71,18 +71,19 @@ Confira o [Contributing](./docs/CONTRIBUTING.md) para mais informações de como
 
 ### Entrega 02
 - **Dia 30/09**
-- Histórias implementadas: [Clique aqui para acessar](https://drive.google.com/drive/u/0/folders/1IHKS6pm2pFUY_g6aT9TqggyUjyL3GvmE)
+- Histórias implementadas: [Clique aqui para acessar](https://docs.google.com/document/d/1y94APl-Q7mjcfqLj36QyZZkEuVCdV_nsnwYIdZMIuy4/edit?tab=t.0)
 - Print do bug tracker:  
   <img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/d2e26d95-1a20-487e-b258-0cb8645d66dd" />
 - Screencast do sistema: [Clique aqui para acessar](https://www.youtube.com/watch?v=IKB8UQPakdo)
 
 ### Entrega 03
 - **Dia 28/09**
-- Histórias implementadas: [Clique aqui para acessar](https://drive.google.com/drive/u/0/folders/1IHKS6pm2pFUY_g6aT9TqggyUjyL3GvmE)
+- Histórias implementadas: [Clique aqui para acessar](https://docs.google.com/document/d/1pVNqIl5-YHWlRt9GD5kzm-vwBTC0tY3vseSQLEO9Iok/edit?tab=t.0)
 - Print do bug tracker atualizado:  
   <<img width="1919" height="911" alt="Captura de tela 2025-10-28 112258" src="https://github.com/user-attachments/assets/c6b95be5-8c3f-4edc-a630-0614981f0536" />
 - Screencast do sistema: [Clique aqui para acessar](https://www.youtube.com/watch?v=8uwtXBvhzFs)
 - Screencast dos Testes automatizados: [Clique aqui para acessar](https://www.youtube.com/watch?v=Hm63CztdTTk)
+- Quadro do Trello atualizado: [Clique aqui para acessar](https://trello.com/b/gJjPryz0/animatch)
 
 ---
 ## Licença
