@@ -36,59 +36,59 @@ public class JikanClient {
 
         for (Map<String, Object> item : data) {
             try {
-                // ID
+                
                 Integer id = (Integer) item.get("mal_id");
 
-                // Título
+                
                 String tituloPrincipal = (String) item.get("title");
 
-                // Status
+               
                 String status = (String) item.get("status");
 
-                // Classificação indicativa
+                
                 String classificacao = (String) item.get("rating");
 
-                // Filtrar animes com conteúdo inadequado
+                
                 if (ClassificacaoUtil.ehClassificacaoProibida(classificacao)) {
                     System.out.println("Anime filtrado (classificação proibida): " + tituloPrincipal + " - " + classificacao);
                     continue;
                 }
 
-                // Nota
+               
                 Double nota = item.get("score") != null ? ((Number) item.get("score")).doubleValue() : null;
 
-                // Episódios
+                
                 Integer episodios = item.get("episodes") != null ? (Integer) item.get("episodes") : 0;
 
-                // Sinopse
+                
                 String sinopse = (String) item.get("synopsis");
 
-                // Trailer
+                
                 Map<String, Object> trailer = (Map<String, Object>) item.get("trailer");
                 String urlTrailer = trailer != null ? (String) trailer.get("url") : null;
 
-                // Ano
+                
                 int anoDeLancamento = item.get("year") != null ? (Integer) item.get("year") : 0;
 
-                // Popularidade
+                
                 int popularidade = item.get("popularity") != null ? (Integer) item.get("popularity") : 0;
 
-                // Gêneros
+                
                 List<Map<String, Object>> generosJson = (List<Map<String, Object>>) item.get("genres");
                 List<String> generos = generosJson != null
                         ? generosJson.stream().map(g -> (String) g.get("name")).collect(Collectors.toList())
                         : Collections.emptyList();
 
-                // Estúdios
+                
                 List<Map<String, Object>> estudiosJson = (List<Map<String, Object>>) item.get("studios");
                 List<String> estudios = estudiosJson != null
                         ? estudiosJson.stream().map(e -> (String) e.get("name")).collect(Collectors.toList())
                         : Collections.emptyList();
 
-                // Reviews
+                
                 List<String> reviews = new ArrayList<>();
 
-                // Período de exibição
+                
                 Map<String, Object> aired = (Map<String, Object>) item.get("aired");
                 LocalDate dataInicio = null;
                 LocalDate dataFim = null;
@@ -102,7 +102,7 @@ public class JikanClient {
                 }
                 Periodo periodoExibicao = new Periodo(dataInicio, dataFim);
 
-                // Imagens
+                
                 Map<String, Object> imagensMap = (Map<String, Object>) item.get("images");
                 Map<String, Object> jpg = (Map<String, Object>) imagensMap.get("jpg");
                 String urlPequena = jpg != null ? (String) jpg.get("small_image_url") : null;
@@ -110,7 +110,7 @@ public class JikanClient {
                 String urlGrande = jpg != null ? (String) jpg.get("large_image_url") : null;
                 Imagens imagens = new Imagens(urlPequena, urlMedia, urlGrande);
 
-                // Criar Anime
+               
                 Anime anime = new Anime(
                         id.longValue(),
                         tituloPrincipal,

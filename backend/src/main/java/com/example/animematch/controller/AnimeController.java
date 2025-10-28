@@ -47,9 +47,7 @@ public class AnimeController {
         return filtrarAnimesInadequados(animeService.buscarAnimesComFiltros(genero, classificacao, status, palavraChave));
     }
     
-    /**
-     * Filtra animes com classificações proibidas antes de retornar ao frontend
-     */
+    
     private List<Anime> filtrarAnimesInadequados(List<Anime> animes) {
         return animes.stream()
                 .filter(anime -> !ClassificacaoUtil.ehClassificacaoProibida(anime.getClassificacao()))
