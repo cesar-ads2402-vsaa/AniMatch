@@ -119,7 +119,11 @@ npm install axios
 npm run dev
 ```
 
+#### Testes: Como rodar
+No diretório `backend`, siga os passos abaixo:
 
-
-
+```bash
+# Execute os testes com o Maven
+mvn test
+```
 
