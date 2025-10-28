@@ -80,7 +80,7 @@ Confira o [Contributing](./docs/CONTRIBUTING.md) para mais informações de como
 - **Dia 28/09**
 - Histórias implementadas: [Clique aqui para acessar](https://docs.google.com/document/d/1pVNqIl5-YHWlRt9GD5kzm-vwBTC0tY3vseSQLEO9Iok/edit?tab=t.0)
 - Print do bug tracker atualizado:  
-  <<img width="1919" height="911" alt="Captura de tela 2025-10-28 112258" src="https://github.com/user-attachments/assets/c6b95be5-8c3f-4edc-a630-0614981f0536" />
+  <img width="1919" height="911" alt="Captura de tela 2025-10-28 112258" src="https://github.com/user-attachments/assets/c6b95be5-8c3f-4edc-a630-0614981f0536" />
 - Screencast do sistema: [Clique aqui para acessar](https://www.youtube.com/watch?v=8uwtXBvhzFs)
 - Screencast dos Testes automatizados: [Clique aqui para acessar](https://www.youtube.com/watch?v=Hm63CztdTTk)
 - Quadro do Trello atualizado: [Clique aqui para acessar](https://trello.com/b/gJjPryz0/animatch)
