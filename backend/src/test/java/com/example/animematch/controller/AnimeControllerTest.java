@@ -126,11 +126,11 @@ void deveFiltrarAnimesComClassificacaoProibida() throws Exception {
     animeProibido.setTituloPrincipal("Anime Proibido");
     animeProibido.setClassificacao("Rx - Hentai");
     
-    // Simula que o service retorna ambos
+    
     when(animeService.listarTodos())
         .thenReturn(List.of(animePermitido, animeProibido));
     
-    // O controller deve filtrar o anime proibido
+    
     mockMvc.perform(get("/api/animes"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.length()").value(1))
