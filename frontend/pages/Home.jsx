@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import AnimeFilters from "../src/components/AnimeFilters";
+import { API_URL } from "../src/config/api";
 
 const Home = () => {
   const [animes, setAnimes] = useState([]);
@@ -15,7 +16,7 @@ const Home = () => {
 
   const carregarAnimes = () => {
     setLoading(true);
-    axios.get("http://localhost:8080/api/animes")
+    axios.get(`${API_URL}/api/animes`)
       .then(response => {
         // Filtro de segurança adicional no frontend (backend já filtra)
         const animesFiltrados = filtrarAnimesInadequados(response.data);
@@ -61,7 +62,7 @@ const Home = () => {
       params.append('palavraChave', filters.palavraChave.trim());
     }
 
-    const url = `http://localhost:8080/api/animes/buscar?${params.toString()}`;
+    const url = `${API_URL}/api/animes/buscar?${params.toString()}`;
     
     axios.get(url)
       .then(response => {

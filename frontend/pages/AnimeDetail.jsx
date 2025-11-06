@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../src/config/api";
 
 function AnimeDetail() {
   const { id } = useParams();
   const [anime, setAnime] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/animes/${id}`)
+    axios.get(`${API_URL}/api/animes/${id}`)
       .then(response => setAnime(response.data))
       .catch(error => console.error("Erro ao buscar anime:", error));
   }, [id]);
