@@ -1,243 +1,144 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+
+
+* {
+  font-family: 'Noto Sans JP', sans-serif;
+}
+ 
 :root{
-    --color1: #222;
-    --color2: grey;
-    --color3: white;
+  --color1: #222;
+  --color2: grey;
+  --color3: white;
+
+  --card-bg: #333;
+  --chip-bg: rgba(14,165,233,0.12);
+  --chip-border: rgba(14,165,233,0.35);
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body{
-    background-color: var(--color1);
-    color: var(--color3);
-}
-.banner{
-    width: 225px;
-    height: 420px;
-}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{ background-color:var(--color1); color:var(--color3); }
+
+
 .banner-container{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+  display:flex; flex-wrap:wrap; gap:20px; justify-content:center;
 }
-.container-detalhes{
-    display:flex;
-    justify-content: center;
-    gap: 20px;
+.container-detalhes{ display:flex; justify-content:center; gap:20px; }
+
+
+.main-container{ display:flex; gap:30px; padding:20px; max-width:1400px; margin:0 auto; }
+.filters-section{
+  flex:0 0 300px; background-color:#333; padding:20px; border-radius:10px;
+  height:fit-content; position:sticky; top:20px;
+  margin-top: 56px;
+}
+.results-section{ flex:1; }
+.results-section h2{ color:var(--color3); margin-bottom:20px; font-size:1.8rem; text-align:center; }
+
+
+.filters-container h3{ color:var(--color3); margin-bottom:20px; font-size:1.5rem; text-align:center; }
+.filter-group{ margin-bottom:20px; }
+.filter-group label{ display:block; color:var(--color3); margin-bottom:8px; font-weight:bold; font-size:.9rem; }
+.filter-group select,
+.search-input{
+  width:100%; padding:10px; border:2px solid #555; border-radius:5px;
+  background-color:#444; color:var(--color3); font-size:.9rem; transition:border-color .3s ease;
+}
+.filter-group select:focus, .search-input:focus{ outline:none; border-color:#007bff; }
+.filter-group select:hover, .search-input:hover{ border-color:#666; }
+.search-input::placeholder{ color:#888; font-style:italic; }
+.clear-filters-btn{
+  width:100%; padding:12px; background-color:#dc3545; color:var(--color3);
+  border:none; border-radius:5px; font-size:1rem; font-weight:bold; cursor:pointer; transition:.3s;
+}
+.clear-filters-btn:hover:not(:disabled){ background-color:#c82333; }
+.clear-filters-btn:disabled{ background-color:#666; cursor:not-allowed; opacity:.6; }
+
+
+.banner{
+  width:225px; background-color:var(--card-bg); border-radius:10px;
+  padding:10px; transition:transform .3s ease, box-shadow .3s ease;
+  position:relative;   /* para z-index dos filhos */
+}
+.banner:hover{ transform:translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,.3); }
+
+
+.cover{
+  width:100%;
+  height:300px;               
+  border-radius:8px;
+  overflow:hidden;
+  position:relative;
+}
+.cover img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:8px;
 }
 
-/* Layout principal */
-.main-container {
-    display: flex;
-    gap: 30px;
-    padding: 20px;
-    max-width: 1400px;
-    margin: 0 auto;
+
+.status-badge{
+  position:absolute;
+  top:8px; left:8px;
+  background:#2b2b34;
+  color:#c9c9d1;
+  font-size:.78rem;
+  padding:4px 8px;
+  border-radius:6px;
+  z-index:2;
+  pointer-events:none;
 }
 
-.filters-section {
-    flex: 0 0 300px;
-    background-color: #333;
-    padding: 20px;
-    border-radius: 10px;
-    height: fit-content;
-    position: sticky;
-    top: 20px;
+
+.banner h3{
+  color:var(--color3);
+  font-size:.9rem;
+  margin-top:10px; margin-bottom:10px;
+  line-height:1.3; height:2.6rem; overflow:hidden; text-overflow:ellipsis;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
 }
 
-.results-section {
-    flex: 1;
+
+.info-box{
+  background-color:#1f1f25;
+  border-radius:8px;
+  padding:10px;
+  margin-top:10px;
 }
 
-/* Estilos dos filtros */
-.filters-container h3 {
-    color: var(--color3);
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    text-align: center;
+
+.genres{
+  display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 8px;
+}
+.genre-tag{
+  font-size:.72rem; line-height:1.8; padding:2px 10px; border-radius:999px;
+  color:#8ecbff; background-color:var(--chip-bg); border:1px solid var(--chip-border);
+  font-weight:500;
 }
 
-.filter-group {
-    margin-bottom: 20px;
+
+.badge, .classification{
+  display:inline-block;
+  font-size:.78rem;
+  color:#ccc;
+  padding:4px 8px;
+  background-color:#2b2b34;
+  border-radius:6px;
+  width:auto;
 }
 
-.filter-group label {
-    display: block;
-    color: var(--color3);
-    margin-bottom: 8px;
-    font-weight: bold;
-    font-size: 0.9rem;
+.no-results{
+  text-align:center; color:#ccc; font-size:1.2rem; margin-top:50px;
+  padding:20px; background-color:#333; border-radius:10px;
 }
 
-.filter-group select {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #555;
-    border-radius: 5px;
-    background-color: #444;
-    color: var(--color3);
-    font-size: 0.9rem;
-    transition: border-color 0.3s ease;
-}
-
-.filter-group select:focus {
-    outline: none;
-    border-color: #007bff;
-}
-
-.filter-group select:hover {
-    border-color: #666;
-}
-
-.search-input {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #555;
-    border-radius: 5px;
-    background-color: #444;
-    color: var(--color3);
-    font-size: 0.9rem;
-    transition: border-color 0.3s ease;
-}
-
-.search-input:focus {
-    outline: none;
-    border-color: #007bff;
-}
-
-.search-input:hover {
-    border-color: #666;
-}
-
-.search-input::placeholder {
-    color: #888;
-    font-style: italic;
-}
-
-.clear-filters-btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #dc3545;
-    color: var(--color3);
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.clear-filters-btn:hover:not(:disabled) {
-    background-color: #c82333;
-}
-
-.clear-filters-btn:disabled {
-    background-color: #666;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-/* Estilos dos resultados */
-.results-section h2 {
-    color: var(--color3);
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-    text-align: center;
-}
-
-/* Melhorias nos cards de anime */
-.banner {
-    width: 225px;
-    height: 420px;
-    background-color: #333;
-    border-radius: 10px;
-    padding: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.banner:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
-
-.banner h3 {
-    color: var(--color3);
-    font-size: 0.9rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    line-height: 1.3;
-    height: 2.6rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.anime-info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-top: 10px;
-}
-
-.status, .classification {
-    font-size: 0.8rem;
-    color: #ccc;
-    padding: 2px 6px;
-    background-color: #444;
-    border-radius: 3px;
-    text-align: center;
-}
-
-.genres {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3px;
-    margin-top: 5px;
-}
-
-.genre-tag {
-    font-size: 0.7rem;
-    color: #007bff;
-    background-color: rgba(0, 123, 255, 0.1);
-    padding: 2px 6px;
-    border-radius: 3px;
-    border: 1px solid rgba(0, 123, 255, 0.3);
-}
-
-.no-results {
-    text-align: center;
-    color: #ccc;
-    font-size: 1.2rem;
-    margin-top: 50px;
-    padding: 20px;
-    background-color: #333;
-    border-radius: 10px;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    .main-container {
-        flex-direction: column;
-        padding: 10px;
-    }
-    
-    .filters-section {
-        position: static;
-        flex: none;
-        margin-bottom: 20px;
-    }
-    
-    .banner-container {
-        justify-content: center;
-    }
-    
-    .banner {
-        width: 200px;
-        height: 380px;
-    }
+@media (max-width:768px){
+  .main-container{ flex-direction:column; padding:10px; }
+  .filters-section{ position:static; flex:none; margin:0 0 20px 0; }
+  .banner-container{ justify-content:center; }
+  .banner{ width:200px; }
+  .cover{ height:270px; }
 }
