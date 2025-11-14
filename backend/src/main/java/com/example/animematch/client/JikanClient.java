@@ -6,6 +6,7 @@ import com.example.animematch.model.Periodo;
 import com.example.animematch.util.ClassificacaoUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -21,13 +22,43 @@ public class JikanClient {
         this.restTemplate = new RestTemplate();
     }
 
+    /**
+     * Busca os animes da temporada (já existia no seu código).
+     */
     public List<Anime> buscarAnimesTemporada(int ano, String temporada) {
         String url = BASE_URL + "/seasons/" + ano + "/" + temporada;
 
         Map<String, Object> response = restTemplate.getForObject(url, Map.class);
-        
-        List<Map<String, Object>> data = (List<Map<String, Object>>) response.get("data");
+        List<Map<String, Object>> data = response != null
+                ? (List<Map<String, Object>>) response.get("data")
+                : null;
 
+        return processarListaDeAnimes(data);
+    }
+
+    /**
+     * Busca animes por título na Jikan (para a tela de busca).
+     */
+    public List<Anime> buscarPorTitulo(String titulo) {
+        String url = UriComponentsBuilder
+                .fromHttpUrl(BASE_URL + "/anime")
+                .queryParam("q", titulo)
+                .queryParam("limit", 15)
+                .toUriString();
+
+        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+        List<Map<String, Object>> data = response != null
+                ? (List<Map<String, Object>>) response.get("data")
+                : null;
+
+        return processarListaDeAnimes(data);
+    }
+
+    /**
+     * Processa a lista de itens retornados pela API e converte em List<Anime>.
+     * Reaproveitado tanto para temporada quanto para busca por título.
+     */
+    private List<Anime> processarListaDeAnimes(List<Map<String, Object>> data) {
         List<Anime> animes = new ArrayList<>();
 
         if (data == null) {
@@ -36,105 +67,120 @@ public class JikanClient {
 
         for (Map<String, Object> item : data) {
             try {
-                
-                Integer id = (Integer) item.get("mal_id");
-
-                
-                String tituloPrincipal = (String) item.get("title");
-
-               
-                String status = (String) item.get("status");
-
-                
-                String classificacao = (String) item.get("rating");
-
-                
-                if (ClassificacaoUtil.ehClassificacaoProibida(classificacao)) {
-                    System.out.println("Anime filtrado (classificação proibida): " + tituloPrincipal + " - " + classificacao);
-                    continue;
+                Anime anime = mapearAnime(item);
+                if (anime != null) {
+                    animes.add(anime);
                 }
-
-               
-                Double nota = item.get("score") != null ? ((Number) item.get("score")).doubleValue() : null;
-
-                
-                Integer episodios = item.get("episodes") != null ? (Integer) item.get("episodes") : 0;
-
-                
-                String sinopse = (String) item.get("synopsis");
-
-                
-                Map<String, Object> trailer = (Map<String, Object>) item.get("trailer");
-                String urlTrailer = trailer != null ? (String) trailer.get("url") : null;
-
-                
-                int anoDeLancamento = item.get("year") != null ? (Integer) item.get("year") : 0;
-
-                
-                int popularidade = item.get("popularity") != null ? (Integer) item.get("popularity") : 0;
-
-                
-                List<Map<String, Object>> generosJson = (List<Map<String, Object>>) item.get("genres");
-                List<String> generos = generosJson != null
-                        ? generosJson.stream().map(g -> (String) g.get("name")).collect(Collectors.toList())
-                        : Collections.emptyList();
-
-                
-                List<Map<String, Object>> estudiosJson = (List<Map<String, Object>>) item.get("studios");
-                List<String> estudios = estudiosJson != null
-                        ? estudiosJson.stream().map(e -> (String) e.get("name")).collect(Collectors.toList())
-                        : Collections.emptyList();
-
-                
-                List<String> reviews = new ArrayList<>();
-
-                
-                Map<String, Object> aired = (Map<String, Object>) item.get("aired");
-                LocalDate dataInicio = null;
-                LocalDate dataFim = null;
-                if (aired != null) {
-                    if (aired.get("from") instanceof String) {
-                        dataInicio = LocalDate.parse(((String) aired.get("from")).substring(0, 10));
-                    }
-                    if (aired.get("to") instanceof String) {
-                        dataFim = LocalDate.parse(((String) aired.get("to")).substring(0, 10));
-                    }
-                }
-                Periodo periodoExibicao = new Periodo(dataInicio, dataFim);
-
-                
-                Map<String, Object> imagensMap = (Map<String, Object>) item.get("images");
-                Map<String, Object> jpg = (Map<String, Object>) imagensMap.get("jpg");
-                String urlPequena = jpg != null ? (String) jpg.get("small_image_url") : null;
-                String urlMedia = jpg != null ? (String) jpg.get("image_url") : null;
-                String urlGrande = jpg != null ? (String) jpg.get("large_image_url") : null;
-                Imagens imagens = new Imagens(urlPequena, urlMedia, urlGrande);
-
-               
-                Anime anime = new Anime(
-                        id.longValue(),
-                        tituloPrincipal,
-                        status,
-                        classificacao,
-                        nota,
-                        episodios,
-                        sinopse,
-                        urlTrailer,
-                        anoDeLancamento,
-                        popularidade,
-                        generos,
-                        estudios,
-                        reviews,
-                        periodoExibicao,
-                        imagens
-                );
-                animes.add(anime);
-
             } catch (Exception e) {
                 System.err.println("Erro ao processar o item: " + item.get("title"));
                 e.printStackTrace();
             }
         }
+
         return animes;
+    }
+
+    /**
+     * Converte um item bruto da Jikan em um objeto Anime da sua aplicação.
+     */
+    private Anime mapearAnime(Map<String, Object> item) {
+        // ID
+        Integer id = (Integer) item.get("mal_id");
+        if (id == null) {
+            return null;
+        }
+
+        // Título
+        String tituloPrincipal = (String) item.get("title");
+
+        // Status
+        String status = (String) item.get("status");
+
+        // Classificação (rating) + filtro
+        String classificacao = (String) item.get("rating");
+        if (ClassificacaoUtil.ehClassificacaoProibida(classificacao)) {
+            System.out.println("Anime filtrado (classificação proibida): " + tituloPrincipal + " - " + classificacao);
+            return null;
+        }
+
+        // Nota
+        Double nota = null;
+        if (item.get("score") != null) {
+            nota = ((Number) item.get("score")).doubleValue();
+        }
+
+        // Episódios
+        Integer episodios = item.get("episodes") != null ? (Integer) item.get("episodes") : 0;
+
+        // Sinopse
+        String sinopse = (String) item.get("synopsis");
+
+        // Trailer
+        Map<String, Object> trailer = (Map<String, Object>) item.get("trailer");
+        String urlTrailer = trailer != null ? (String) trailer.get("url") : null;
+
+        // Ano de lançamento
+        int anoDeLancamento = item.get("year") != null ? (Integer) item.get("year") : 0;
+
+        // Popularidade
+        int popularidade = item.get("popularity") != null ? (Integer) item.get("popularity") : 0;
+
+        // Gêneros
+        List<Map<String, Object>> generosJson = (List<Map<String, Object>>) item.get("genres");
+        List<String> generos = generosJson != null
+                ? generosJson.stream().map(g -> (String) g.get("name")).collect(Collectors.toList())
+                : Collections.emptyList();
+
+        // Estúdios
+        List<Map<String, Object>> estudiosJson = (List<Map<String, Object>>) item.get("studios");
+        List<String> estudios = estudiosJson != null
+                ? estudiosJson.stream().map(e -> (String) e.get("name")).collect(Collectors.toList())
+                : Collections.emptyList();
+
+        // Reviews (vazio por enquanto)
+        List<String> reviews = new ArrayList<>();
+
+        // Período de exibição
+        Map<String, Object> aired = (Map<String, Object>) item.get("aired");
+        LocalDate dataInicio = null;
+        LocalDate dataFim = null;
+        if (aired != null) {
+            Object fromObj = aired.get("from");
+            if (fromObj instanceof String from && from.length() >= 10) {
+                dataInicio = LocalDate.parse(from.substring(0, 10));
+            }
+            Object toObj = aired.get("to");
+            if (toObj instanceof String to && to.length() >= 10) {
+                dataFim = LocalDate.parse(to.substring(0, 10));
+            }
+        }
+        Periodo periodoExibicao = new Periodo(dataInicio, dataFim);
+
+        // Imagens
+        Map<String, Object> imagensMap = (Map<String, Object>) item.get("images");
+        Map<String, Object> jpg = imagensMap != null ? (Map<String, Object>) imagensMap.get("jpg") : null;
+        String urlPequena = jpg != null ? (String) jpg.get("small_image_url") : null;
+        String urlMedia = jpg != null ? (String) jpg.get("image_url") : null;
+        String urlGrande = jpg != null ? (String) jpg.get("large_image_url") : null;
+        Imagens imagens = new Imagens(urlPequena, urlMedia, urlGrande);
+
+        // Monta o Anime
+        return new Anime(
+                id.longValue(),
+                tituloPrincipal,
+                status,
+                classificacao,
+                nota,
+                episodios,
+                sinopse,
+                urlTrailer,
+                anoDeLancamento,
+                popularidade,
+                generos,
+                estudios,
+                reviews,
+                periodoExibicao,
+                imagens
+        );
     }
 }
