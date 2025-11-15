@@ -6,6 +6,7 @@ import com.example.animematch.model.Periodo;
 import com.example.animematch.util.ClassificacaoUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import com.example.animematch.model.Review;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -136,5 +137,43 @@ public class JikanClient {
             }
         }
         return animes;
+    }
+
+    public List<Review> buscarReviewsDoAnime(Long animeId) {
+        String url = BASE_URL + "/anime/" + animeId + "/reviews";
+
+        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+        
+        List<Map<String, Object>> data = (List<Map<String, Object>>) response.get("data");
+
+        List<Review> reviews = new ArrayList<>();
+
+        if (data == null) {
+            return reviews;
+        }
+
+        for (Map<String, Object> item : data) {
+            try {
+                
+                Integer malId = (Integer) item.get("mal_id");
+                
+                Map<String, Object> user = (Map<String, Object>) item.get("user");
+                String username = (user != null) ? (String) user.get("username") : "Anônimo";
+                
+                String comment = (String) item.get("review");
+
+                Review review = new Review();
+                review.setId(malId.longValue());
+                review.setAuthor(username);
+                review.setComment(comment);
+                
+                reviews.add(review);
+
+            } catch (Exception e) {
+                System.err.println("Erro ao processar review item: " + e.getMessage());
+            }
+        }
+        
+        return reviews;
     }
 }
