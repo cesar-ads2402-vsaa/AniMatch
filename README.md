@@ -77,7 +77,7 @@ Confira o [Contributing](./docs/CONTRIBUTING.md) para mais informações de como
 - Screencast do sistema: [Clique aqui para acessar](https://www.youtube.com/watch?v=IKB8UQPakdo)
 
 ### Entrega 03
-- **Dia 28/09**
+- **Dia 28/10**
 - Histórias implementadas: [Clique aqui para acessar](https://docs.google.com/document/d/1pVNqIl5-YHWlRt9GD5kzm-vwBTC0tY3vseSQLEO9Iok/edit?tab=t.0)
 - Print do bug tracker atualizado:  
   <img width="1919" height="911" alt="Captura de tela 2025-10-28 112258" src="https://github.com/user-attachments/assets/c6b95be5-8c3f-4edc-a630-0614981f0536" />
@@ -85,7 +85,13 @@ Confira o [Contributing](./docs/CONTRIBUTING.md) para mais informações de como
 - Screencast dos Testes automatizados: [Clique aqui para acessar](https://www.youtube.com/watch?v=Hm63CztdTTk)
 - Quadro do Trello atualizado: [Clique aqui para acessar](https://trello.com/b/gJjPryz0/animatch)
 
----
+### Entrega 04
+- **Dia 17/11**
+- Histórias implementadas: [Clique aqui para acessar](https://docs.google.com/document/d/1L3-7TUe1X7KwaPHbsdD2ZhPy57GWovIw7peYKIT6Tbo/edit?tab=t.0)
+- Print do bug tracker atualizado:  
+ <img width="1919" height="886" alt="Captura de tela 2025-11-17 121917" src="https://github.com/user-attachments/assets/66c9592f-4314-4893-8ea6-7e2bf8948bc6" />
+
+- Quadro do Trello atualizado: [Clique aqui para acessar](https://trello.com/b/gJjPryz0/animatch)
 ## Licença
 Esse projeto está licenciado sob a [Licença MIT](./LICENSE). 
 
