@@ -3,34 +3,39 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../src/config/api";
 
+import { ReviewsSection } from "../src/components/ReviewsSection";
+
 function AnimeDetail() {
-  const { id } = useParams();
-  const [anime, setAnime] = useState(null);
+ const { id } = useParams();
+ const [anime, setAnime] = useState(null);
 
-  useEffect(() => {
-    axios.get(`${API_URL}/api/animes/${id}`)
-      .then(response => setAnime(response.data))
-      .catch(error => console.error("Erro ao buscar anime:", error));
-  }, [id]);
+ const [showReviews, setShowReviews] = useState(false);
 
-  if (!anime) {
-    return <p>Carregando...</p>;
-  }
+ useEffect(() => {
+ axios.get(`${API_URL}/api/animes/${id}`)
+ .then(response => setAnime(response.data))
+ .catch(error => console.error("Erro ao buscar anime:", error));
+ }, [id]);
 
-  return (
-    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-      <h1>{anime.tituloPrincipal}</h1>
-    <div className="container-detalhes">
+ if (!anime) {
+ return <p>Carregando...</p>;
+ }
+
+ return (
+
+ <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
+ <h1>{anime.tituloPrincipal}</h1>
+      <div className="container-detalhes">
+        <div>
+        {anime.imagens && anime.imagens.urlImagemGrande && (
+          <img 
+            src={anime.imagens.urlImagemGrande} 
+            alt={anime.tituloPrincipal} 
+            style={{ width: "300px", borderRadius: "10px", marginBottom: "20px" }}
+          />
+        )}
+        </div>
       <div>
-      {anime.imagens && anime.imagens.urlImagemGrande && (
-        <img 
-          src={anime.imagens.urlImagemGrande} 
-          alt={anime.tituloPrincipal} 
-          style={{ width: "300px", borderRadius: "10px", marginBottom: "20px" }}
-        />
-      )}
-      </div>
-    <div>
         <p><strong>Status:</strong> {anime.status}</p>
         <p><strong>Classificação:</strong> {anime.classificacao}</p>
         <p><strong>Nota:</strong> {anime.nota}</p>
@@ -47,7 +52,7 @@ function AnimeDetail() {
         {anime.periodoExibicao && (
           <p>
             <strong>Período de exibição:</strong> 
-            {anime.periodoExibicao.dataInicio} até {anime.periodoExibicao.dataFim}
+            {" "}{anime.periodoExibicao.dataInicio} até {anime.periodoExibicao.dataFim}
           </p>
         )}
 
@@ -60,8 +65,25 @@ function AnimeDetail() {
         )}
       </div>
     </div>
-    </div>
-  );
+      
+    {/* --- SEÇÃO DE REVIEWS ADICIONADA ABAIXO --- */}
+    
+    <hr style={{ margin: "30px 0" }} /> {/* Apenas um separador visual */}
+
+    {/* NOVO: 3. Botão para alternar a visibilidade */}
+    <button 
+      onClick={() => setShowReviews(!showReviews)}
+      style={{ fontSize: "16px", padding: "10px 15px", cursor: "pointer" }}
+    >
+      {showReviews ? "Esconder Reviews" : "Carregar Reviews"}
+    </button>
+
+    {/* NOVO: 4. Renderização condicional da seção de reviews */}
+    {/* Se 'showReviews' for true, o componente <ReviewsSection> será mostrado */}
+    {showReviews && <ReviewsSection animeId={id} />}
+      
+ </div>
+ );
 }
 
 export default AnimeDetail;
