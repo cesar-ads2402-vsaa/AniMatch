@@ -92,6 +92,8 @@ Confira o [Contributing](./docs/CONTRIBUTING.md) para mais informações de como
  <img width="1919" height="886" alt="Captura de tela 2025-11-17 121917" src="https://github.com/user-attachments/assets/66c9592f-4314-4893-8ea6-7e2bf8948bc6" />
 
 - Quadro do Trello atualizado: [Clique aqui para acessar](https://trello.com/b/gJjPryz0/animatch)
+-  Screencast do sistema: [Clique aqui para acessar](https://youtu.be/i5goUW7ryMw)
+- Screencast dos Testes automatizados: [Clique aqui para acessar](https://www.youtube.com/watch?v=Hm63CztdTTk](https://youtu.be/GSbLInkUKXo?si=aPjY0SFbUSgstTW7)
 ## Licença
 Esse projeto está licenciado sob a [Licença MIT](./LICENSE). 
 
