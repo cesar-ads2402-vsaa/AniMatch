@@ -15,9 +15,8 @@ export function ReviewsSection({ animeId }) {
         setLoading(true);
         setError("");
 
-        // Ajuste a URL abaixo para o endpoint REAL do seu backend
         const response = await axios.get(
-          `http://localhost:8080/api/animes/${animeId}/reviews`
+          `https://animatch-backend.onrender.com/api/animes/${animeId}/reviews`
         );
 
         setReviews(response.data || []);
