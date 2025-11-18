@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,19 +28,11 @@ public class AnimeService implements CommandLineRunner {
         this.jikanClient = jikanClient;
     }
 
-    /**
-     * Ao subir a aplicação, carrega os animes da temporada atual
-     * (apenas na primeira vez em que essa temporada for carregada).
-     */
     @Override
     public void run(String... args) {
         carregarAnimesTemporadaAtual();
     }
 
-    /**
-     * Busca animes da temporada atual na Jikan e salva no banco,
-     * se ainda não houver cache para essa temporada.
-     */
     public List<Anime> carregarAnimesTemporadaAtual() {
         String temporadaAtual = TemporadaUtil.getTemporadaAtual();
         int anoAtual = LocalDate.now().getYear();
@@ -48,7 +41,6 @@ public class AnimeService implements CommandLineRunner {
 
         if (cache != null) {
             System.out.println("Temporada já carregada no banco: " + temporadaAtual + " " + anoAtual);
-            // Já está carregado: apenas devolve o que tiver no banco
             return animeRepository.findAll();
         }
 
@@ -65,10 +57,6 @@ public class AnimeService implements CommandLineRunner {
         return animesDaTemporada;
     }
 
-    /**
-     * Listagem geral (vai mostrar, inicialmente, os animes da temporada carregados
-     * + qualquer outro anime que você eventualmente salvar no banco).
-     */
     public List<Anime> listarTodos() {
         return animeRepository.findAll();
     }
@@ -78,31 +66,29 @@ public class AnimeService implements CommandLineRunner {
     }
 
     public Anime buscarPorId(Long id) {
-        return animeRepository.findById(id).orElse(null);
+        return animeRepository.findById(id)
+                .orElseGet(() -> {
+                    Anime animeDaApi = jikanClient.buscarAnimePorId(id);
+                    if (animeDaApi != null) {
+                        return animeRepository.save(animeDaApi);
+                    }
+                    return null;
+                });
     }
 
-    /**
-     * Busca por título:
-     *  - Primeiro tenta no banco (temporada + o que já foi cacheado).
-     *  - Se não encontrar, tenta na Jikan.
-     */
     public Anime buscarPorTitulo(String titulo) {
         Anime doBanco = animeRepository.findByTituloPrincipal(titulo).orElse(null);
         if (doBanco != null) {
             return doBanco;
         }
 
-        // Fallback na Jikan
         List<Anime> daApi = jikanClient.buscarPorTitulo(titulo);
         if (daApi == null || daApi.isEmpty()) {
             return null;
         }
 
-        // Se quiser cachear o primeiro resultado:
-        // Anime salvo = animeRepository.save(daApi.get(0));
-        // return salvo;
-
-        return daApi.get(0);
+        Anime salvo = animeRepository.save(daApi.get(0));
+        return salvo;
     }
 
     public List<Anime> buscarPorGenero(String genero) {
@@ -117,18 +103,11 @@ public class AnimeService implements CommandLineRunner {
         return animeRepository.findByStatus(status);
     }
 
-    /**
-     * Busca com filtros:
-     *  - Primeiro tenta no banco com os filtros.
-     *  - Se não achar nada e existir palavra-chave, consulta a Jikan.
-     *    Isso permite que o usuário encontre animes fora da temporada.
-     */
     public List<Anime> buscarAnimesComFiltros(String genero,
                                               String classificacao,
                                               String status,
                                               String palavraChave) {
 
-        // 1. Tenta primeiro no banco (animes da temporada / cache local)
         List<Anime> resultados = animeRepository.findByFiltros(
                 genero,
                 classificacao,
@@ -140,18 +119,16 @@ public class AnimeService implements CommandLineRunner {
             return resultados;
         }
 
-        // 2. Se não achou nada no banco e o usuário informou um nome,
-        //    chama a Jikan para buscar diretamente lá.
         if (palavraChave != null && !palavraChave.isBlank()) {
             List<Anime> daApi = jikanClient.buscarPorTitulo(palavraChave);
 
-            // Se quiser, pode salvar o que vier no banco para cache:
-            // animeRepository.saveAll(daApi);
+            if (daApi != null && !daApi.isEmpty()) {
+                animeRepository.saveAll(daApi);
+            }
 
-            return daApi;
+            return daApi != null ? daApi : new ArrayList<>();
         }
 
-        // 3. Sem resultados e sem palavra-chave, devolve a lista vazia mesmo
         return resultados;
     }
 }

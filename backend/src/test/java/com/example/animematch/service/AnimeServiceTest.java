@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -138,5 +139,204 @@ class AnimeServiceTest {
         assertEquals("Naruto", resultado.get(0).getTituloPrincipal());
         verify(animeRepository, times(1)).findAll();
         verify(jikanClient, never()).buscarAnimesTemporada(anyInt(), anyString());
+    }
+
+    @Test
+    void deveBuscarNaApiQuandoNaoEncontrarPorIdNoBanco() {
+        Long id = 1L;
+        Anime animeDaApi = new Anime();
+        animeDaApi.setId(id);
+        animeDaApi.setTituloPrincipal("Naruto");
+
+        when(animeRepository.findById(id)).thenReturn(Optional.empty());
+        when(jikanClient.buscarAnimePorId(id)).thenReturn(animeDaApi);
+        when(animeRepository.save(animeDaApi)).thenReturn(animeDaApi);
+
+        Anime resultado = animeService.buscarPorId(id);
+
+        assertNotNull(resultado);
+        assertEquals("Naruto", resultado.getTituloPrincipal());
+        verify(animeRepository, times(1)).findById(id);
+        verify(jikanClient, times(1)).buscarAnimePorId(id);
+        verify(animeRepository, times(1)).save(animeDaApi);
+    }
+
+    @Test
+    void deveRetornarNullQuandoNaoEncontrarPorIdNemNaApi() {
+        Long id = 1L;
+
+        when(animeRepository.findById(id)).thenReturn(Optional.empty());
+        when(jikanClient.buscarAnimePorId(id)).thenReturn(null);
+
+        Anime resultado = animeService.buscarPorId(id);
+
+        assertNull(resultado);
+        verify(animeRepository, times(1)).findById(id);
+        verify(jikanClient, times(1)).buscarAnimePorId(id);
+        verify(animeRepository, never()).save(any());
+    }
+
+    @Test
+    void deveBuscarNaApiQuandoNaoEncontrarPorTituloNoBanco() {
+        String titulo = "Naruto";
+        Anime animeDaApi = new Anime();
+        animeDaApi.setId(1L);
+        animeDaApi.setTituloPrincipal("Naruto");
+
+        when(animeRepository.findByTituloPrincipal(titulo)).thenReturn(Optional.empty());
+        when(jikanClient.buscarPorTitulo(titulo)).thenReturn(List.of(animeDaApi));
+        when(animeRepository.save(animeDaApi)).thenReturn(animeDaApi);
+
+        Anime resultado = animeService.buscarPorTitulo(titulo);
+
+        assertNotNull(resultado);
+        assertEquals("Naruto", resultado.getTituloPrincipal());
+        verify(animeRepository, times(1)).findByTituloPrincipal(titulo);
+        verify(jikanClient, times(1)).buscarPorTitulo(titulo);
+        verify(animeRepository, times(1)).save(animeDaApi);
+    }
+
+    @Test
+    void deveRetornarNullQuandoNaoEncontrarPorTituloNemNaApi() {
+        String titulo = "AnimeInexistente";
+
+        when(animeRepository.findByTituloPrincipal(titulo)).thenReturn(Optional.empty());
+        when(jikanClient.buscarPorTitulo(titulo)).thenReturn(new ArrayList<>());
+
+        Anime resultado = animeService.buscarPorTitulo(titulo);
+
+        assertNull(resultado);
+        verify(animeRepository, times(1)).findByTituloPrincipal(titulo);
+        verify(jikanClient, times(1)).buscarPorTitulo(titulo);
+        verify(animeRepository, never()).save(any());
+    }
+
+    @Test
+    void deveRetornarResultadosDoBancoQuandoBuscarComFiltros() {
+        String genero = "Action";
+        String classificacao = "PG-13";
+        String status = "Finished Airing";
+        String palavraChave = null;
+
+        Anime anime1 = new Anime();
+        anime1.setTituloPrincipal("Naruto");
+        List<Anime> resultados = List.of(anime1);
+
+        when(animeRepository.findByFiltros(genero, classificacao, status, palavraChave))
+                .thenReturn(resultados);
+
+        List<Anime> resultado = animeService.buscarAnimesComFiltros(genero, classificacao, status, palavraChave);
+
+        assertEquals(1, resultado.size());
+        assertEquals("Naruto", resultado.get(0).getTituloPrincipal());
+        verify(animeRepository, times(1)).findByFiltros(genero, classificacao, status, palavraChave);
+        verify(jikanClient, never()).buscarPorTitulo(anyString());
+    }
+
+    @Test
+    void deveBuscarNaApiQuandoNaoEncontrarComFiltrosNoBanco() {
+        String genero = null;
+        String classificacao = null;
+        String status = null;
+        String palavraChave = "Naruto";
+
+        Anime animeDaApi = new Anime();
+        animeDaApi.setId(1L);
+        animeDaApi.setTituloPrincipal("Naruto");
+
+        when(animeRepository.findByFiltros(genero, classificacao, status, palavraChave))
+                .thenReturn(new ArrayList<>());
+        when(jikanClient.buscarPorTitulo(palavraChave)).thenReturn(List.of(animeDaApi));
+        when(animeRepository.saveAll(anyList())).thenReturn(List.of(animeDaApi));
+
+        List<Anime> resultado = animeService.buscarAnimesComFiltros(genero, classificacao, status, palavraChave);
+
+        assertEquals(1, resultado.size());
+        assertEquals("Naruto", resultado.get(0).getTituloPrincipal());
+        verify(animeRepository, times(1)).findByFiltros(genero, classificacao, status, palavraChave);
+        verify(jikanClient, times(1)).buscarPorTitulo(palavraChave);
+        verify(animeRepository, times(1)).saveAll(anyList());
+    }
+
+    @Test
+    void deveRetornarListaVaziaQuandoNaoEncontrarComFiltrosESemPalavraChave() {
+        String genero = "Action";
+        String classificacao = null;
+        String status = null;
+        String palavraChave = null;
+
+        when(animeRepository.findByFiltros(genero, classificacao, status, palavraChave))
+                .thenReturn(new ArrayList<>());
+
+        List<Anime> resultado = animeService.buscarAnimesComFiltros(genero, classificacao, status, palavraChave);
+
+        assertTrue(resultado.isEmpty());
+        verify(animeRepository, times(1)).findByFiltros(genero, classificacao, status, palavraChave);
+        verify(jikanClient, never()).buscarPorTitulo(anyString());
+    }
+
+    @Test
+    void deveRetornarListaVaziaQuandoApiRetornarNullNaBuscaComFiltros() {
+        String genero = null;
+        String classificacao = null;
+        String status = null;
+        String palavraChave = "AnimeInexistente";
+
+        when(animeRepository.findByFiltros(genero, classificacao, status, palavraChave))
+                .thenReturn(new ArrayList<>());
+        when(jikanClient.buscarPorTitulo(palavraChave)).thenReturn(null);
+
+        List<Anime> resultado = animeService.buscarAnimesComFiltros(genero, classificacao, status, palavraChave);
+
+        assertNotNull(resultado);
+        assertTrue(resultado.isEmpty());
+        verify(animeRepository, times(1)).findByFiltros(genero, classificacao, status, palavraChave);
+        verify(jikanClient, times(1)).buscarPorTitulo(palavraChave);
+        verify(animeRepository, never()).saveAll(anyList());
+    }
+
+    @Test
+    void deveBuscarPorGenero() {
+        String genero = "Action";
+        Anime anime = new Anime();
+        anime.setTituloPrincipal("Naruto");
+
+        when(animeRepository.findByGenerosContaining(genero)).thenReturn(List.of(anime));
+
+        List<Anime> resultado = animeService.buscarPorGenero(genero);
+
+        assertEquals(1, resultado.size());
+        assertEquals("Naruto", resultado.get(0).getTituloPrincipal());
+        verify(animeRepository, times(1)).findByGenerosContaining(genero);
+    }
+
+    @Test
+    void deveBuscarPorClassificacao() {
+        String classificacao = "PG-13";
+        Anime anime = new Anime();
+        anime.setTituloPrincipal("Naruto");
+
+        when(animeRepository.findByClassificacao(classificacao)).thenReturn(List.of(anime));
+
+        List<Anime> resultado = animeService.buscarPorClassificacao(classificacao);
+
+        assertEquals(1, resultado.size());
+        assertEquals("Naruto", resultado.get(0).getTituloPrincipal());
+        verify(animeRepository, times(1)).findByClassificacao(classificacao);
+    }
+
+    @Test
+    void deveBuscarPorStatus() {
+        String status = "Finished Airing";
+        Anime anime = new Anime();
+        anime.setTituloPrincipal("Naruto");
+
+        when(animeRepository.findByStatus(status)).thenReturn(List.of(anime));
+
+        List<Anime> resultado = animeService.buscarPorStatus(status);
+
+        assertEquals(1, resultado.size());
+        assertEquals("Naruto", resultado.get(0).getTituloPrincipal());
+        verify(animeRepository, times(1)).findByStatus(status);
     }
 }
