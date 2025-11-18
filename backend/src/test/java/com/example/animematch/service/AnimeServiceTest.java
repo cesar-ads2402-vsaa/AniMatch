@@ -131,6 +131,21 @@ class AnimeServiceTest {
 
         Anime a1 = new Anime();
         a1.setTituloPrincipal("Naruto");
+        
+        LocalDate dataInicio = LocalDate.now();
+        if (temporada.equals("winter")) {
+            dataInicio = LocalDate.of(ano, 2, 1);
+        } else if (temporada.equals("spring")) {
+            dataInicio = LocalDate.of(ano, 5, 1);
+        } else if (temporada.equals("summer")) {
+            dataInicio = LocalDate.of(ano, 8, 1);
+        } else {
+            dataInicio = LocalDate.of(ano, 11, 1);
+        }
+        
+        com.example.animematch.model.Periodo periodo = new com.example.animematch.model.Periodo(dataInicio, null);
+        a1.setPeriodoExibicao(periodo);
+        
         when(animeRepository.findAll()).thenReturn(List.of(a1));
 
         List<Anime> resultado = animeService.carregarAnimesTemporadaAtual();
