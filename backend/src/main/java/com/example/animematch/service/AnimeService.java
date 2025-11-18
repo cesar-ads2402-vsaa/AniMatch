@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AnimeService implements CommandLineRunner {
@@ -41,7 +42,7 @@ public class AnimeService implements CommandLineRunner {
 
         if (cache != null) {
             System.out.println("Temporada já carregada no banco: " + temporadaAtual + " " + anoAtual);
-            return animeRepository.findAll();
+            return filtrarAnimesPorTemporada(animeRepository.findAll(), anoAtual, temporadaAtual);
         }
 
         System.out.println("Nenhum cache encontrado. Buscando da Jikan API...");
@@ -55,6 +56,54 @@ public class AnimeService implements CommandLineRunner {
         System.out.println("Temporada " + temporadaAtual + " " + anoAtual + " carregada com sucesso!");
 
         return animesDaTemporada;
+    }
+
+    private List<Anime> filtrarAnimesPorTemporada(List<Anime> todosAnimes, int ano, String temporada) {
+        LocalDate inicioTemporada = getInicioTemporada(ano, temporada);
+        LocalDate fimTemporada = getFimTemporada(ano, temporada);
+
+        return todosAnimes.stream()
+                .filter(anime -> {
+                    if (anime.getPeriodoExibicao() == null) {
+                        return false;
+                    }
+                    LocalDate dataInicio = anime.getPeriodoExibicao().getDataInicio();
+                    if (dataInicio == null) {
+                        return false;
+                    }
+                    return !dataInicio.isBefore(inicioTemporada) && !dataInicio.isAfter(fimTemporada);
+                })
+                .collect(Collectors.toList());
+    }
+
+    private LocalDate getInicioTemporada(int ano, String temporada) {
+        switch (temporada.toLowerCase()) {
+            case "winter":
+                return LocalDate.of(ano, 1, 1);
+            case "spring":
+                return LocalDate.of(ano, 4, 1);
+            case "summer":
+                return LocalDate.of(ano, 7, 1);
+            case "fall":
+                return LocalDate.of(ano, 10, 1);
+            default:
+                return LocalDate.of(ano, 1, 1);
+        }
+    }
+
+    private LocalDate getFimTemporada(int ano, String temporada) {
+        switch (temporada.toLowerCase()) {
+            case "winter":
+                return LocalDate.of(ano, 3, 31);
+            case "spring":
+                return LocalDate.of(ano, 6, 30);
+            case "summer":
+                return LocalDate.of(ano, 9, 30);
+            case "fall":
+                return LocalDate.of(ano, 12, 31);
+            default:
+                return LocalDate.of(ano, 12, 31);
+        }
     }
 
     public List<Anime> listarTodos() {

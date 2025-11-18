@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../config/api";
 
 const REVIEWS_STEP = 3; // quantidade que aparece por vez
 
@@ -16,7 +17,7 @@ export function ReviewsSection({ animeId }) {
         setError("");
 
         const response = await axios.get(
-          `https://animatch-backend.onrender.com/api/animes/${animeId}/reviews`
+          `${API_URL}/api/animes/${animeId}/reviews`
         );
 
         setReviews(response.data || []);

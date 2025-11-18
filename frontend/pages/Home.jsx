@@ -19,7 +19,7 @@ const Home = () => {
     try {
       setLoading(true);
       setError("");
-      const { data } = await axios.get(`${API_URL}/api/animes`);
+      const { data } = await axios.get(`${API_URL}/api/animes/temporada/atual`);
       const animesFiltrados = filtrarAnimesInadequados(data);
       setAnimes(animesFiltrados);
       setFilteredAnimes(animesFiltrados);
